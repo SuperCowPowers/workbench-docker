@@ -5,17 +5,23 @@
 # - installs ElasticSearch
 # - installs Workbench
 
-FROM       ubuntu:latest
+FROM       phusion/baseimage:0.9.13
 MAINTAINER briford.wylie@gmail.com
 
+### Phusion Stuff ###
+# Set correct environment variables.
+ENV HOME /root
+RUN /etc/my_init.d/00_regen_ssh_host_keys.sh
+
+# Use baseimage-docker's init system.
+CMD ["/sbin/my_init"]
+
+### My Stuff ###
 # Install a bunch of default stuff
 RUN apt-get update && apt-get install -y tar git curl wget dialog net-tools build-essential
 
 # Install python and pip
 RUN apt-get install -y python python-dev python-distribute python-pip
-
-# Overwrite the policy rc file so that we can start MongoDB later
-RUN echo '#!/bin/sh\nexit 0' > /usr/sbin/policy-rc.d
 
 # Install MongoDB.
 RUN \
@@ -31,16 +37,17 @@ VOLUME ["/data"]
 # Define working directory.
 WORKDIR /data
 
-# Install Supervisor
-RUN apt-get install -y supervisor
-RUN mkdir -p /var/log/supervisor
-COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
-
 # Install workbench
 RUN pip install workbench --pre
 
-# Define supervisor command which runs both MongoDB and workbench_server
-CMD ["/usr/bin/supervisord"]
+# Adding stuff to runit
+RUN mkdir /etc/service/workbench
+ADD workbench.sh /etc/service/workbench/run
+
+### Phusion Stuff ###
+# Clean up APT when done.
+RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
 
 # Expose ports.
 #   - 4242: workbench
