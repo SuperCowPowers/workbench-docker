@@ -41,6 +41,8 @@ WORKDIR /data
 RUN pip install workbench --pre
 
 # Adding stuff to runit
+RUN mkdir /etc/service/mongo
+ADD mongo.sh /etc/service/mongo/run
 RUN mkdir /etc/service/workbench
 ADD workbench.sh /etc/service/workbench/run
 
