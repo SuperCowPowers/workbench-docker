@@ -38,8 +38,11 @@ VOLUME ["/data"]
 WORKDIR /data
 
 # Install Bro IDS
-RUN wget https://s3-us-west-2.amazonaws.com/workbench-data/packages/Bro-2.2-Linux-x86_64_flex.deb
-RUN dpkg -i Bro-2.2-Linux-x86_64_flex.deb
+RUN apt-get install -y libgeoip1
+RUN apt-get install -y libpcap0.8
+RUN apt-get install -y libssl0.9.8
+RUN wget https://s3-us-west-2.amazonaws.com/workbench-data/packages/Bro-2.2-Linux-x86_64_flex.deb && \
+  dpkg -i Bro-2.2-Linux-x86_64_flex.deb
 
 # Install workbench
 RUN pip install workbench --pre
