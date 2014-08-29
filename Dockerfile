@@ -37,6 +37,10 @@ VOLUME ["/data"]
 # Define working directory.
 WORKDIR /data
 
+# Install Bro IDS
+RUN wget https://s3-us-west-2.amazonaws.com/workbench-data/packages/Bro-2.2-Linux-x86_64_flex.deb
+RUN dpkg -i Bro-2.2-Linux-x86_64_flex.deb
+
 # Install workbench
 RUN pip install workbench --pre
 
