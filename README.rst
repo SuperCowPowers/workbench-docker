@@ -12,14 +12,27 @@ python classes.
 -  `Workbench <https://github.com/SuperCowPowers/workbench>`_
 
 Workbench Docker Notes
-~~~~~~~~~~~~~~~~~~~~~~
+----------------------
+
+Devs
+~~~~
 
 - Building: docker build --tag supercowpowers/workbench .
+- Committing: docker commit CONTAINER supercowpowers/workbench
+- Login: docker login
+- Push: docker push supercowpowers/workbench
+
+Users
+~~~~~
+
 - Running: docker run --rm --name workbench_demo -p 4242:4242 supercowpowers/workbench
 - Getting IP on Mac: boot2docker ip
-- Notes:
-    - IP: docker ps -q | xargs docker inspect | grep IPAddress | cut -d ‘”‘ -f 4
-    - Interactive image: docker run -i -t -p 80:80 ubuntu /bin/bash
+
+Notes
+~~~~~
+
+- IP: docker ps -q | xargs docker inspect | grep IPAddress | cut -d ‘”‘ -f 4
+- Interactive image: docker run -i -t -p 80:80 ubuntu /bin/bash
 
 
 Read the Documentation
