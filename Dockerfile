@@ -45,6 +45,9 @@ RUN wget https://s3-us-west-2.amazonaws.com/workbench-data/packages/Bro-2.2-Linu
   dpkg -i Bro-2.2-Linux-x86_64_flex.deb
 ENV PATH /opt/bro/bin:$PATH
 
+# Dependencies for Matplotlib
+RUN apt-get install -y libfreetype6-dev libxft-dev
+
 # Install workbench
 RUN pip install workbench --pre
 
